@@ -86,3 +86,6 @@ alias myip='curl ipinfo.io/ip'
 alias ansiblecfg="export ANSIBLE_CONFIG=./ansible-local.cfg"
 alias config='/usr/bin/git --git-dir=/home/skeutgen/.cfg/ --work-tree=/home/skeutgen'
 alias config='/usr/bin/git --git-dir=/home/skeutgen/.cfg/ --work-tree=/home/skeutgen'
+# https://www.atlassian.com/git/tutorials/dotfiles
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
