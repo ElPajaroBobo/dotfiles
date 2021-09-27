@@ -41,7 +41,6 @@ export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
 source /usr/local/bin/virtualenvwrapper.sh
 
 # define HashiVault vars
-# https://vault.team41.oss.msvc.akqui.net/
 source ~/.env
 
 # colorize some stuff
@@ -68,7 +67,7 @@ export COLOR_WHITE='\e[1;37m'
 
 case $TERM in
      xterm*|rxvt*)
-         TITLEBAR='\[\033]0;\u ${NEW_PWD}\007\]'
+         TITLEBAR='\[\033]0;\H ${NEW_PWD}\007\]'
           ;;
      *)
          TITLEBAR=""
@@ -78,13 +77,12 @@ case $TERM in
 UC=$COLOR_GREEN               # user's color
 [ $UID -eq "0" ] && UC=$COLOR_RED   # root's color
 
-PS1="$TITLEBAR\n\[${UC}\]\u \[${COLOR_LIGHT_BLUE}\]\${PWD} \[${COLOR_BLACK}\]\\n\[${COLOR_LIGHT_GREEN}\]→\[${COLOR_NC}\] " 
+PS1="$TITLEBAR\n\[${UC}\]\H \[${COLOR_LIGHT_BLUE}\]\${PWD} \[${COLOR_BLACK}\]\\n\[${COLOR_LIGHT_GREEN}\]→\[${COLOR_NC}\] " 
 
 # aliases
 alias ll="ls -lah"
 alias myip='curl ipinfo.io/ip'
 alias ansiblecfg="export ANSIBLE_CONFIG=./ansible-local.cfg"
-alias config='/usr/bin/git --git-dir=/home/skeutgen/.cfg/ --work-tree=/home/skeutgen'
 alias config='/usr/bin/git --git-dir=/home/skeutgen/.cfg/ --work-tree=/home/skeutgen'
 # https://www.atlassian.com/git/tutorials/dotfiles
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
