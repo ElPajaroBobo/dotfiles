@@ -27,23 +27,6 @@ eval "$(dircolors ~/.dircolors)"
 # git autocomplete
 source /usr/share/bash-completion/completions/git
 
-# git bash prompt
-# https://github.com/magicmonty/bash-git-prompt
-# if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
-#  GIT_PROMPT_ONLY_IN_REPO=1
-#  source $HOME/.bash-git-prompt/gitprompt.sh
-# fi
-
-# add go lang to path
-export PATH=$PATH:/usr/local/go/bin
-GOPATH=$HOME/go
-function _update_ps1() {
-    PS1="$($GOPATH/bin/powerline-go -error $?)"
-}
-if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-fi
-
 # virtualenvwrapper
 # https://virtualenvwrapper.readthedocs.io/en/latest/
 export WORKON_HOME=~/.virtualenvs
@@ -88,6 +71,27 @@ export COLOR_WHITE='\e[1;37m'
 # [ $UID -eq "0" ] && UC=$COLOR_RED   # root's color
 
 # PS1="$TITLEBAR\n\[${UC}\]\H \[${COLOR_LIGHT_BLUE}\]\${PWD} \[${COLOR_BLACK}\]\\n\[${COLOR_LIGHT_GREEN}\]→\[${COLOR_NC}\] "
+
+# git bash prompt
+# https://github.com/magicmonty/bash-git-prompt
+# if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
+#  GIT_PROMPT_ONLY_IN_REPO=1
+#  source $HOME/.bash-git-prompt/gitprompt.sh
+# fi
+
+# add go lang to path
+# https://golang.org/doc/install
+export PATH=$PATH:/usr/local/go/bin
+
+# shell style https://github.com/justjanne/powerline-go
+GOPATH=$HOME/go
+function _update_ps1() {
+    PS1="$($GOPATH/bin/powerline-go -modules "git,venv,cwd,perms,hg,jobs,exit,newline,time,root" -shell bash -git-mode simple)"
+}
+if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+fi
+
 
 # aliases
 alias ll="ls -lah"
