@@ -29,9 +29,19 @@ source /usr/share/bash-completion/completions/git
 
 # git bash prompt
 # https://github.com/magicmonty/bash-git-prompt
-if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
- GIT_PROMPT_ONLY_IN_REPO=1
- source $HOME/.bash-git-prompt/gitprompt.sh
+# if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
+#  GIT_PROMPT_ONLY_IN_REPO=1
+#  source $HOME/.bash-git-prompt/gitprompt.sh
+# fi
+
+# add go lang to path
+export PATH=$PATH:/usr/local/go/bin
+GOPATH=$HOME/go
+function _update_ps1() {
+    PS1="$($GOPATH/bin/powerline-go -error $?)"
+}
+if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
 
 # virtualenvwrapper
@@ -65,19 +75,19 @@ export COLOR_LIGHT_CYAN='\e[1;36m'
 export COLOR_LIGHT_GRAY='\e[0;37m'
 export COLOR_WHITE='\e[1;37m'
 
-case $TERM in
-     xterm*|rxvt*)
-         TITLEBAR='\[\033]0;\H ${NEW_PWD}\007\]'
-          ;;
-     *)
-         TITLEBAR=""
-          ;;
-    esac
+# case $TERM in
+#      xterm*|rxvt*)
+#          TITLEBAR='\[\033]0;\H ${NEW_PWD}\007\]'
+#           ;;
+#      *)
+#          TITLEBAR=""
+#           ;;
+#     esac
 
-UC=$COLOR_GREEN               # user's color
-[ $UID -eq "0" ] && UC=$COLOR_RED   # root's color
+# UC=$COLOR_GREEN               # user's color
+# [ $UID -eq "0" ] && UC=$COLOR_RED   # root's color
 
-PS1="$TITLEBAR\n\[${UC}\]\H \[${COLOR_LIGHT_BLUE}\]\${PWD} \[${COLOR_BLACK}\]\\n\[${COLOR_LIGHT_GREEN}\]→\[${COLOR_NC}\] " 
+# PS1="$TITLEBAR\n\[${UC}\]\H \[${COLOR_LIGHT_BLUE}\]\${PWD} \[${COLOR_BLACK}\]\\n\[${COLOR_LIGHT_GREEN}\]→\[${COLOR_NC}\] "
 
 # aliases
 alias ll="ls -lah"
@@ -86,4 +96,3 @@ alias ansiblecfg="export ANSIBLE_CONFIG=./ansible-local.cfg"
 alias config='/usr/bin/git --git-dir=/home/skeutgen/.cfg/ --work-tree=/home/skeutgen'
 # https://www.atlassian.com/git/tutorials/dotfiles
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-
