@@ -100,6 +100,9 @@ else
   fi
 fi
 
+# git delta side by side git diff tool
+# https://github.com/dandavison/delta
+
 # aliases
 alias ll="ls -lah"
 alias myip='curl ipinfo.io/ip'
