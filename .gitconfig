@@ -1,6 +1,5 @@
-[user]
-        name = Sascha Keutgen
-        email = sascha.keutgen@akquinet.de
+[include]
+	path = ~/.gituser
 [color]
         ui = auto
 [core]
