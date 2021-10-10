@@ -31,10 +31,16 @@ source /usr/share/bash-completion/completions/git
 # https://virtualenvwrapper.readthedocs.io/en/latest/
 export WORKON_HOME=~/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
-source /usr/local/bin/virtualenvwrapper.sh
+if [ -f /home/ubuntu/.local/bin/virtualenvwrapper.sh ]; then
+  source /home/ubuntu/.local/bin/virtualenvwrapper.sh
+else
+  source /usr/local/bin/virtualenvwrapper.sh
+fi
 
 # define HashiVault vars
-source ~/.env
+if [ -f ~/.env ]; then
+  source ~/.env
+fi
 
 # colorize some stuff
 export CLICOLOR=1
@@ -58,40 +64,41 @@ export COLOR_LIGHT_CYAN='\e[1;36m'
 export COLOR_LIGHT_GRAY='\e[0;37m'
 export COLOR_WHITE='\e[1;37m'
 
-# case $TERM in
-#      xterm*|rxvt*)
-#          TITLEBAR='\[\033]0;\H ${NEW_PWD}\007\]'
-#           ;;
-#      *)
-#          TITLEBAR=""
-#           ;;
-#     esac
+if [ ! -f /usr/local/go/bin/go ]; then
+  case $TERM in
+       xterm*|rxvt*)
+           TITLEBAR='\[\033]0;\H ${NEW_PWD}\007\]'
+            ;;
+       *)
+           TITLEBAR=""
+            ;;
+      esac
 
-# UC=$COLOR_GREEN               # user's color
-# [ $UID -eq "0" ] && UC=$COLOR_RED   # root's color
+  UC=$COLOR_GREEN               # user's color
+  [ $UID -eq "0" ] && UC=$COLOR_RED   # root's color
 
-# PS1="$TITLEBAR\n\[${UC}\]\H \[${COLOR_LIGHT_BLUE}\]\${PWD} \[${COLOR_BLACK}\]\\n\[${COLOR_LIGHT_GREEN}\]→\[${COLOR_NC}\] "
+  PS1="$TITLEBAR\n\[${UC}\]\H \[${COLOR_LIGHT_BLUE}\]\${PWD} \[${COLOR_BLACK}\]\\n\[${COLOR_LIGHT_GREEN}\]→\[${COLOR_NC}\] "
 
-# git bash prompt
-# https://github.com/magicmonty/bash-git-prompt
-# if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
-#  GIT_PROMPT_ONLY_IN_REPO=1
-#  source $HOME/.bash-git-prompt/gitprompt.sh
-# fi
-
-# add go lang to path
-# https://golang.org/doc/install
-export PATH=$PATH:/usr/local/go/bin
-
-# shell style https://github.com/justjanne/powerline-go
-GOPATH=$HOME/go
-function _update_ps1() {
-    PS1="$($GOPATH/bin/powerline-go -modules "git,venv,cwd,perms,hg,jobs,exit,newline,time,root" -shell bash -git-mode simple)"
-}
-if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+  # git bash prompt
+  # https://github.com/magicmonty/bash-git-prompt
+  if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
+    GIT_PROMPT_ONLY_IN_REPO=1
+    source $HOME/.bash-git-prompt/gitprompt.sh
+  fi
+else
+  # add go lang to path
+  # https://golang.org/doc/install
+  export PATH=$PATH:/usr/local/go/bin
+  # shell style https://github.com/justjanne/powerline-go
+  export TERM='xterm-256color'
+  export GOPATH=$HOME/go
+  function _update_ps1() {
+      PS1="$($GOPATH/bin/powerline-go -modules "git,venv,cwd,perms,hg,jobs,exit,newline,time,root" -shell bash -git-mode simple)"
+  }
+  if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
+      PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+  fi
 fi
-
 
 # aliases
 alias ll="ls -lah"
